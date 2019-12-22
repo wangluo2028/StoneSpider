@@ -7,6 +7,8 @@
 #git config --global credential.helper 'cache --timeout 7200'
 #git remote set-url origin git@github.com:username/repo.git
 #Echo. >test.txt
+#remove ignore cache:
+#git rm -r --cached .idea
 
 import HearthstoneLanguage
 import HearthstoneWindow
