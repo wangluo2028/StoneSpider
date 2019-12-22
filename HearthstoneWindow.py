@@ -47,6 +47,8 @@ class HearthstoneWindow:
         else:
             size = self._hwndHearthstone.size
         testClientRect = win32gui.GetClientRect(self._hwndHearthstone._hWnd)
+        print(size)
+        print(testClientRect)
         print(self._hwndHearthstone.isMaximized)
         print(self._hwndHearthstone.isMinimized)
         #self._hwndHearthstone.maximize()

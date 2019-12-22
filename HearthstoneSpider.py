@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#pip freeze > requirements.txt
+
 import HearthstoneLanguage
 import HearthstoneWindow
 
