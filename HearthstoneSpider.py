@@ -6,6 +6,7 @@
 #git push https://github.com/owner/repo.git
 #git config --global credential.helper 'cache --timeout 7200'
 #git remote set-url origin git@github.com:username/repo.git
+#Echo. >test.txt
 
 import HearthstoneLanguage
 import HearthstoneWindow
