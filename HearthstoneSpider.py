@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+#python -m pip install --upgrade pip
 #pip3 freeze > requirements.txt
 #pip3 install  -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 #pip3 uninstall -r D:\ML\StoneSpider\requirements.txt
