@@ -1,6 +1,6 @@
 # StoneSpider
-炉石机器人
-安装指南：
+##炉石机器人
+##安装指南：
 pip3 install  -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
 # Ref link:
