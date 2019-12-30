@@ -1,3 +1,4 @@
+mss==4.0.3
 PyGetWindow==0.0.8
 PyRect==0.1.4
 pywin32==227

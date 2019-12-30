@@ -11,7 +11,7 @@ class Language(Enum):
 class HearthstoneLang:
     def __init__(self, language):
         self._language = language
-        self._windowTitles = {Language.Chinese:'炉石传说', Language.English:'Hearthstone'}
+        self._windowTitles = {Language.Chinese:'这台电脑', Language.English:'Hearthstone'}
         self._thisWindowTitle = self._windowTitles.get(self._language, 'not supported language')
 
     @property
