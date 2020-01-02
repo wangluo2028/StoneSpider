@@ -51,6 +51,6 @@ class WindowUtil:
               ctypes.byref(rect),
               ctypes.sizeof(rect)
               )
-        else:
-            rect.
         windowInfo = WindowInfo(rect)
+
+        return windowInfo
