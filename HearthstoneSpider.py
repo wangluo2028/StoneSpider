@@ -8,10 +8,7 @@ from mss import mss
 #pip freeze > requirements.txt
 
 if __name__ == "__main__":
-    with mss() as sct:
-        sct.shot()
-
-    language = HearthstoneLanguage.Language.Chinese
+    language = HearthstoneLanguage.Language.English
     hslang = HearthstoneLanguage.HearthstoneLang(language)
     hsWindow = HearthstoneWindow.HearthstoneWindow(hslang)
     hsWindow.autoSearchWindow()

@@ -3,6 +3,9 @@
 import pygetwindow
 import ctypes
 import win32gui
+import importlib
+import win32.constants
+#win32Constant = importlib.import_module('.constants', 'xpra-3.0.4.xpra.platform.win32')
 import mss, mss.tools
 
 class WindowInfo:
@@ -84,7 +87,9 @@ class WindowController:
     def bringToFront(self):
         self._targetWinTitle.restore()
         win32gui.BringWindowToTop(self.hwnd)
-        win32gui.SetForegroundWindow(self.hwnd)
+        #win32gui.SetForegroundWindow(self.hwnd)
+        SW_SHOWNORMAL = 1
+        win32gui.ShowWindow(self.hwnd, win32.constants.SW_SHOWNORMAL)
 
     def refreshWindowRect(self):
         self._windowInfo = WindowUtil.getWindowInfo(self.hwnd)
