@@ -9,14 +9,18 @@ class Language(Enum):
 
 
 class HearthstoneLang:
-    def __init__(self, language):
-        self._language = language
-        self._windowTitles = {Language.Chinese:'炉石传说', Language.English:'Hearthstone'}
-        self._thisWindowTitle = self._windowTitles.get(self._language, 'not supported language')
+    def __init__(self, hsLang, battleNetLang = Language.Chinese):
+        self._hsLang = hsLang
+        self._hsWindowTitles = {Language.Chinese: '炉石传说', Language.English: 'Hearthstone'}
+        self._thisHsWindowTitle = self._hsWindowTitles.get(self._hsLang, 'not supported language')
+
+        self._battleNetLang = battleNetLang
+        self._battleNetWindowTitles = {Language.Chinese:'暴雪战网', Language.English:'Blizzard Battle.net'}
+        self._thisBattleNetWindowTitle = self._battleNetWindowTitles.get(self._battleNetLang, 'not supported language')
 
     @property
-    def windowTitle(self):
-        return self._thisWindowTitle
+    def hsWindowTitle(self):
+        return self._thisHsWindowTitle
 
 
     # @property

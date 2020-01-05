@@ -15,4 +15,5 @@ if __name__ == "__main__":
     hslang = HearthstoneLanguage.HearthstoneLang(language)
     hsWindow = HearthstoneWindow.HearthstoneWindow(hslang)
     hsWindow.autoSearchWindow()
-    hsWindow.testMove()
+    hsWindow.mainLoop()
+    #hsWindow.testMove()

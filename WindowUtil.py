@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import pygetwindow
 import ctypes
+import win32gui
+import mss, mss.tools
 
 class WindowInfo:
     def __init__(self, windowRect):
@@ -54,3 +56,52 @@ class WindowUtil:
         windowInfo = WindowInfo(rect)
 
         return windowInfo
+
+class WindowController:
+    def __init__(self, programWinTitle):
+        winTitles = pygetwindow.getWindowsWithTitle(programWinTitle)
+        targetWinTitle = None
+        for winTitle in winTitles:
+            if programWinTitle == winTitle.title:
+                targetWinTitle = winTitle
+                break
+
+        if targetWinTitle == None:
+            raise Exception(programWinTitle+" could not be found...")
+        else:
+            self._targetWinTitle = targetWinTitle
+            self._hwnd = targetWinTitle._hWnd
+            self._windowInfo = None
+
+    @property
+    def hwnd(self):
+        return self._hwnd
+
+    @property
+    def windowInfo(self):
+        return self._windowInfo
+
+    def bringToFront(self):
+        self._targetWinTitle.restore()
+        win32gui.BringWindowToTop(self.hwnd)
+        win32gui.SetForegroundWindow(self.hwnd)
+
+    def refreshWindowRect(self):
+        self._windowInfo = WindowUtil.getWindowInfo(self.hwnd)
+
+    def takeScreenshot(self):
+        self.refreshWindowRect()
+        self.bringToFront()
+
+        screenShot = None
+        with mss.mss() as sct:
+            screenShot = sct.grab({
+                'left': self.windowInfo.left, 'top': self.windowInfo.top,
+                'width': self.windowInfo.width, 'height': self.windowInfo.height
+            })
+
+        return screenShot
+
+
+
+

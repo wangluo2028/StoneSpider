@@ -1,28 +1,52 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import win32gui
 import pygetwindow as gw
-#from ctypes import *
 import ctypes
+from WindowUtil import WindowController
+import numpy as np
+import cv2
+import subprocess
+from mss import mss
+from PIL import Image
 
 class HearthstoneWindow:
     def __init__(self, hsLang):
         self._hsLang = hsLang
+        self._hearthWinController = None
         self._hwndHearthstone = None
+        self._hearthStonePath = r"D:\Program Files (x86)\Hearthstone\Hearthstone Beta Launcher.exe"
 
     @property
     def hsLang(self):
         return self._hsLang
 
     def autoSearchWindow(self):
+        try:
+            self._hearthWinController = WindowController(self.hsLang.hsWindowTitle)
+        except Exception:
+            subprocess.call(self._hearthStonePath)
         #self._hwndHearthstone = win32gui.FindWindow(None, self.hsLang.windowTitle)
-        hearthstoneWindows = gw.getWindowsWithTitle(self.hsLang.windowTitle)
-        self._hwndHearthstone = None
-        for hsWindow in hearthstoneWindows:
-            if hsWindow.title == self.hsLang.windowTitle:
-                self._hwndHearthstone = hsWindow
+        # hearthstoneWindows = gw.getWindowsWithTitle(self.hsLang.windowTitle)
+        # self._hwndHearthstone = None
+        # for hsWindow in hearthstoneWindows:
+        #     if hsWindow.title == self.hsLang.windowTitle:
+        #         self._hwndHearthstone = hsWindow
+        #         break
+
+    def mainLoop(self):
+        while True:
+            screenShot = self._hearthWinController.takeScreenshot()
+            self.analyzeScreenShot(screenShot)
+            if (cv2.waitKey(1) & 0xFF) == ord('q'):
+                cv2.destroyAllWindows()
                 break
+
+    def analyzeScreenShot(self, screenShot):
+        cv2.imshow('test', np.array(screenShot))
+
+
+
 
     def testMove(self):
         #windowSize = win32gui.GetWindowRect(self._hwndHearthstone)

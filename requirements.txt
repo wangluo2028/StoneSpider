@@ -1,4 +1,9 @@
+decorator==4.4.1
 mss==4.0.3
+networkx==2.4
+numpy==1.18.0
+opencv-python==4.1.2.30
+Pillow==7.0.0
 PyGetWindow==0.0.8
 PyRect==0.1.4
 pywin32==227

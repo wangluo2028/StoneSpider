@@ -21,8 +21,10 @@
 
 ## 安装指南：
 pip3 install  -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
-
 # Ref link:
+https://github.com/keon/algorithms.git
+https://github.com/caesar0301/treelib.git
+https://github.com/networkx/networkx.git
 https://github.com/qiueer/autoops_for_win
 https://github.com/asweigart/PyGetWindow
 https://github.com/opencv/opencv
