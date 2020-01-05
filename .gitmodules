@@ -1,0 +1,3 @@
+[submodule "ezlinks"]
+	path = ezlinks
+	url = https://github.com/xharris/ezlinks.git
