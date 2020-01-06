@@ -12,3 +12,6 @@ remove ignore cache:
 git rm -r --cached .idea
 pip freeze > requirements.txt
 git submodule add https://github.com/AirtestProject/Airtest.git
+https://github.com/blackrosezy/gui-inspect-tool.git
+git submodule init
+git submodule update

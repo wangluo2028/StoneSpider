@@ -7,3 +7,6 @@
 [submodule "Automagica"]
 	path = Automagica
 	url = https://github.com/OakwoodAI/Automagica.git
+[submodule "gui-inspect-tool"]
+	path = gui-inspect-tool
+	url = https://github.com/blackrosezy/gui-inspect-tool.git
