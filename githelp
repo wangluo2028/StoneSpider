@@ -15,3 +15,4 @@ git submodule add https://github.com/AirtestProject/Airtest.git
 https://github.com/blackrosezy/gui-inspect-tool.git
 git submodule init
 git submodule update
+git submodule update --remote --merge

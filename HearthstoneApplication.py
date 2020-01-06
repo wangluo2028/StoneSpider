@@ -20,7 +20,7 @@ class HearthstoneApplication:
         self._hearthStonePath = None
         self._battleNetReg = r"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Battle.net"
         self._battleNetPath = r"\Battle.net.exe"
-        self._application = pywinauto.Application(backend='win32')
+        self._application = pywinauto.Application(backend='uia')
         self._battleNetApplication = None
         self._battleNetWindow = None
 
@@ -47,7 +47,7 @@ class HearthstoneApplication:
 
     def autoConnectBattleNet(self):
         try:
-            self._battleNetApplication = self.application.connect(title = self.hsLang.battleNetWindowTitle)
+            self._battleNetApplication = self.application.connect(title_re = self.hsLang.battleNetWindowTitle)
         except pywinauto.application.ProcessNotFoundError:
             try:
                 self._battleNetApplication = self.application.start(self.battleNetPath, 5)
@@ -57,6 +57,7 @@ class HearthstoneApplication:
 
         self._battleNetWindow = self._battleNetApplication.top_window()
         self._test = self._battleNetWindow.print_control_identifiers()
+        print('test')
 
     def autoConnectHearthStone(self):
         pass
