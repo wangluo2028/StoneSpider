@@ -1,3 +1,4 @@
+comtypes==1.1.7
 decorator==4.4.1
 mss==4.0.3
 networkx==2.4
@@ -8,5 +9,8 @@ PyGetWindow==0.0.8
 PyRect==0.1.4
 pywin32==227
 pywin32-ctypes==0.2.0
+pywinauto==0.6.8
+six==1.13.0
+treelib==1.5.5
 win32core==221.36
 win32gui==221.6

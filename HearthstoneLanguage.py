@@ -19,6 +19,10 @@ class HearthstoneLang:
         self._thisBattleNetWindowTitle = self._battleNetWindowTitles.get(self._battleNetLang, 'not supported language')
 
     @property
+    def battleNetWindowTitle(self):
+        return self._thisBattleNetWindowTitle
+
+    @property
     def hsWindowTitle(self):
         return self._thisHsWindowTitle
 

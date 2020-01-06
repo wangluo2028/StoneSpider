@@ -22,6 +22,8 @@
 ## 安装指南：
 pip3 install  -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 # Ref link:
+pywinauto unittest HTMLTestRunner
+https://github.com/blackrosezy/gui-inspect-tool.git
 https://github.com/keon/algorithms.git
 https://github.com/caesar0301/treelib.git
 https://github.com/networkx/networkx.git

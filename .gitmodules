@@ -1,3 +1,9 @@
 [submodule "ezlinks"]
 	path = ezlinks
 	url = https://github.com/xharris/ezlinks.git
+[submodule "Airtest"]
+	path = Airtest
+	url = https://github.com/AirtestProject/Airtest.git
+[submodule "Automagica"]
+	path = Automagica
+	url = https://github.com/OakwoodAI/Automagica.git

@@ -9,17 +9,57 @@ import cv2
 import subprocess
 from mss import mss
 from PIL import Image
+import winreg
+import pywinauto
 
-class HearthstoneWindow:
+class HearthstoneApplication:
     def __init__(self, hsLang):
         self._hsLang = hsLang
         self._hearthWinController = None
         self._hwndHearthstone = None
-        self._hearthStonePath = r"D:\Program Files (x86)\Hearthstone\Hearthstone Beta Launcher.exe"
+        self._hearthStonePath = None
+        self._battleNetReg = r"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Battle.net"
+        self._battleNetPath = r"\Battle.net.exe"
+        self._application = pywinauto.Application(backend='win32')
+        self._battleNetApplication = None
+        self._battleNetWindow = None
 
     @property
     def hsLang(self):
         return self._hsLang
+
+    @property
+    def battleNetPath(self):
+        return self._battleNetPath
+
+    @property
+    def application(self):
+        return self._application
+
+    @property
+    def battleNetApplication(self):
+        return self._battleNetApplication
+
+    def autoSearchBattleNetPath(self):
+        hbattleNetKey = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self._battleNetReg)
+        self._battleNetPath = winreg.QueryValueEx(hbattleNetKey, "InstallLocation")[0] + self._battleNetPath
+        winreg.CloseKey(hbattleNetKey)
+
+    def autoConnectBattleNet(self):
+        try:
+            self._battleNetApplication = self.application.connect(title = self.hsLang.battleNetWindowTitle)
+        except pywinauto.application.ProcessNotFoundError:
+            try:
+                self._battleNetApplication = self.application.start(self.battleNetPath, 5)
+            except Exception:
+                print('Please install battle net and hearthstone')
+                self._battleNetApplication = None
+
+        self._battleNetWindow = self._battleNetApplication.top_window()
+        self._test = self._battleNetWindow.print_control_identifiers()
+
+    def autoConnectHearthStone(self):
+        pass
 
     def autoSearchWindow(self):
         try:
