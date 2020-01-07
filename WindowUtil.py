@@ -68,20 +68,24 @@ class WindowUtil:
         return windowInfo
 
 class WindowController:
-    def __init__(self, programWinTitle):
-        winTitles = pygetwindow.getWindowsWithTitle(programWinTitle)
-        targetWinTitle = None
-        for winTitle in winTitles:
-            if programWinTitle == winTitle.title:
-                targetWinTitle = winTitle
-                break
+    def __init__(self, **kwargs):
+        self._windowInfo = None
+        self._hwnd = None
+        if 'handle' in kwargs:
+            self._hwnd = kwargs['handle']
+        elif 'title' in kwargs:
+            programWinTitle = kwargs['title']
+            winTitles = pygetwindow.getWindowsWithTitle(programWinTitle)
+            targetWinTitle = None
+            for winTitle in winTitles:
+                if programWinTitle == winTitle.title:
+                    targetWinTitle = winTitle
+                    break
 
-        if targetWinTitle == None:
-            raise Exception(programWinTitle+" could not be found...")
-        else:
-            self._targetWinTitle = targetWinTitle
-            self._hwnd = targetWinTitle._hWnd
-            self._windowInfo = None
+            if targetWinTitle == None:
+                raise Exception(programWinTitle + " could not be found...")
+            else:
+                self._hwnd = targetWinTitle._hWnd
 
     @property
     def hwnd(self):
@@ -92,10 +96,9 @@ class WindowController:
         return self._windowInfo
 
     def bringToFront(self):
-        self._targetWinTitle.restore()
+        win32gui.ShowWindow(self.hwnd, win32Constant.SW_RESTORE)
         win32gui.BringWindowToTop(self.hwnd)
         #win32gui.SetForegroundWindow(self.hwnd)
-        SW_SHOWNORMAL = 1
         win32gui.ShowWindow(self.hwnd, win32Constant.SW_SHOWNORMAL)
 
     def refreshWindowRect(self):

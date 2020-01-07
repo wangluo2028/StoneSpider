@@ -47,15 +47,19 @@ class HearthstoneApplication:
 
     def autoConnectBattleNet(self):
         try:
-            self._battleNetApplication = self.application.connect(title_re = self.hsLang.battleNetWindowTitle)
-        except pywinauto.application.ProcessNotFoundError:
+            self._battleNetApplication = self.application.connect(title_re = self.hsLang.battleNetWindowTitle, visible_only = False)
+        except Exception as e:
+            print(str(e))
             try:
                 self._battleNetApplication = self.application.start(self.battleNetPath, 5)
+                #TODO handle login window(wait for logining complete)
             except Exception:
                 print('Please install battle net and hearthstone')
                 self._battleNetApplication = None
 
-        self._battleNetWindow = self._battleNetApplication.top_window()
+        self._battleNetWindow = self._battleNetApplication.window(title_re = self.hsLang.battleNetWindowTitle, visible_only = False)
+        battleNetWinController = WindowController(handle = self._battleNetWindow.wrapper_object().handle)
+        battleNetWinController.bringToFront()
         self._test = self._battleNetWindow.print_control_identifiers()
         print('test')
 
@@ -64,7 +68,7 @@ class HearthstoneApplication:
 
     def autoSearchWindow(self):
         try:
-            self._hearthWinController = WindowController(self.hsLang.hsWindowTitle)
+            self._hearthWinController = WindowController(title = self.hsLang.hsWindowTitle)
         except Exception:
             subprocess.call(self._hearthStonePath)
         #self._hwndHearthstone = win32gui.FindWindow(None, self.hsLang.windowTitle)
