@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import pygetwindow as gw
 import ctypes
 from WindowUtil import WindowController
@@ -19,7 +20,7 @@ class HearthstoneApplication:
         self._hwndHearthstone = None
         self._hearthStonePath = None
         self._battleNetReg = r"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Battle.net"
-        self._battleNetPath = r"\Battle.net.exe"
+        self._battleNetPath = r"\Battle.net Launcher.exe"
         self._application = pywinauto.Application(backend='uia')
         self._battleNetApplication = None
         self._battleNetWindow = None
@@ -42,16 +43,16 @@ class HearthstoneApplication:
 
     def autoSearchBattleNetPath(self):
         hbattleNetKey = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self._battleNetReg)
-        self._battleNetPath = winreg.QueryValueEx(hbattleNetKey, "InstallLocation")[0] + self._battleNetPath
+        self._battleNetPath = winreg.QueryValueEx(hbattleNetKey, "InstallLocation")[0] + self.battleNetPath
         winreg.CloseKey(hbattleNetKey)
 
     def autoConnectBattleNet(self):
         try:
-            self._battleNetApplication = self.application.connect(title_re = self.hsLang.battleNetWindowTitle, visible_only = False)
+            self._battleNetApplication = self.application.connect(title_re = self.hsLang.battleNetWindowTitle, visible_only = False, top_level_only = False)
         except Exception as e:
             print(str(e))
             try:
-                self._battleNetApplication = self.application.start(self.battleNetPath, 5)
+                self._battleNetApplication = self.application.start(self.battleNetPath, 10, work_dir=os.path.dirname(self.battleNetPath))
                 #TODO handle login window(wait for logining complete)
             except Exception:
                 print('Please install battle net and hearthstone')
@@ -70,7 +71,7 @@ class HearthstoneApplication:
         try:
             self._hearthWinController = WindowController(title = self.hsLang.hsWindowTitle)
         except Exception:
-            subprocess.call(self._hearthStonePath)
+            subprocess.call(self.battleNetPath)
         #self._hwndHearthstone = win32gui.FindWindow(None, self.hsLang.windowTitle)
         # hearthstoneWindows = gw.getWindowsWithTitle(self.hsLang.windowTitle)
         # self._hwndHearthstone = None

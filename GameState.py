@@ -1,15 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from enum import Enum
+from enum import IntEnum
 import treelib
 
-class GameStatus(Enum):
-    NotStart = 1
-    BattleNet = 2
-    Welcome = 3
-    BattleMode = 4
-    AdventureMode = 5
+class GameStatus(IntEnum):
+    NoStatus = 1
+    NotStart = auto()
+    Started = auto()
+    Login = auto()
+    BattleNet = auto()
+    BattleNetSystemTray = auto()
+    BattleNetHeartStone = auto()
+
 
 
 class GameState(treelib.Node):
