@@ -16,7 +16,7 @@ import pywinauto
 class HearthstoneApplication:
     def __init__(self, hsLang):
         self._hsLang = hsLang
-        self._hearthWinController = None
+
         self._hwndHearthstone = None
         self._hearthStonePath = None
         self._battleNetReg = r"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Battle.net"
@@ -24,6 +24,8 @@ class HearthstoneApplication:
         self._application = pywinauto.Application(backend='uia')
         self._battleNetApplication = None
         self._battleNetWindow = None
+        self._hearthStoneWindow = None
+        self._hearthStoneWinController = None
 
     @property
     def hsLang(self):
@@ -40,6 +42,22 @@ class HearthstoneApplication:
     @property
     def battleNetApplication(self):
         return self._battleNetApplication
+
+    @property
+    def battleNetWindow(self):
+        return self._battleNetWindow
+
+    @property
+    def hearthStoneWindow(self):
+        return self._hearthStoneWindow
+
+    @property
+    def hearthStoneHwnd(self):
+        return self.hearthStoneWindow.wrapper_object().handle
+
+    @property
+    def hearthStoneWinController(self):
+        return self._hearthStoneWinController
 
     def autoSearchBattleNetPath(self):
         hbattleNetKey = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, self._battleNetReg)
@@ -67,32 +85,34 @@ class HearthstoneApplication:
     def autoConnectHearthStone(self):
         pass
 
-    def autoSearchWindow(self):
+    def autoSearchBattleNetWindow(self):
         try:
-            self._hearthWinController = WindowController(title = self.hsLang.hsWindowTitle)
+            self._hearthStoneWindow = self.application.window(title_re = self.hsLang.hsWindowTitle, visible_only = False, top_level_only = False)
         except Exception:
             subprocess.call(self.battleNetPath)
-        #self._hwndHearthstone = win32gui.FindWindow(None, self.hsLang.windowTitle)
-        # hearthstoneWindows = gw.getWindowsWithTitle(self.hsLang.windowTitle)
-        # self._hwndHearthstone = None
-        # for hsWindow in hearthstoneWindows:
-        #     if hsWindow.title == self.hsLang.windowTitle:
-        #         self._hwndHearthstone = hsWindow
-        #         break
+
+    def autoSearchHearthStoneWindow(self):
+        try:
+            self._hearthStoneWindow = self.application.window(title_re = self.hsLang.hsWindowTitle, visible_only = False, top_level_only = False)
+            self._hearthStoneWinController = WindowController(handle = self.hearthStoneHwnd)
+        except Exception as e:
+            self.autoSearchBattleNetWindow()
 
     def mainLoop(self):
         while True:
-            screenShot = self._hearthWinController.takeScreenshot()
-            self.analyzeScreenShot(screenShot)
-            if (cv2.waitKey(1) & 0xFF) == ord('q'):
-                cv2.destroyAllWindows()
-                break
+            try:
+                if not self.hearthStoneWinController:
+                    raise Exception("Heart window invalid")
+                screenShot = self.hearthStoneWinController.takeScreenshot()
+                self.analyzeScreenShot(screenShot)
+            except Exception as e:
+                self.autoSearchHearthStoneWindow()
+            # if (cv2.waitKey(1) & 0xFF) == ord('q'):
+            #     cv2.destroyAllWindows()
+            #     break
 
     def analyzeScreenShot(self, screenShot):
         cv2.imshow('test', np.array(screenShot))
-
-
-
 
     def testMove(self):
         #windowSize = win32gui.GetWindowRect(self._hwndHearthstone)

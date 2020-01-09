@@ -12,11 +12,10 @@ if __name__ == "__main__":
     init_device("Windows")
 
     #Application(backend='uia').start('Battle.net Launcher.exe')
-    language = HearthstoneLanguage.Language.English
-    hslang = HearthstoneLanguage.HearthstoneLang(language)
+    hslang = HearthstoneLanguage.HearthstoneLang()
     hsApp = HearthstoneApplication.HearthstoneApplication(hslang)
     hsApp.autoSearchBattleNetPath()
     hsApp.autoConnectBattleNet()
-    hsApp.autoSearchWindow()
+    hsApp.autoSearchHearthStoneWindow()
     hsApp.mainLoop()
     #hsApp.testMove()

@@ -67,6 +67,10 @@ class WindowUtil:
 
         return windowInfo
 
+    @staticmethod
+    def isWindow(windowHandle):
+        return ctypes.windll.user32.isWindow(windowHandle)
+
 class WindowController:
     def __init__(self, **kwargs):
         self._windowInfo = None
