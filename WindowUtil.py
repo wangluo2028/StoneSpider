@@ -14,6 +14,9 @@ import win32.constants as win32Constant
 # win32Constant = importlib.util.module_from_spec(spec)
 # spec.loader.exec_module(win32Constant)
 import mss, mss.tools
+import pyautogui
+import numpy as np
+import cv2
 
 class WindowInfo:
     def __init__(self, windowRect):
@@ -21,6 +24,7 @@ class WindowInfo:
         self._top = windowRect.top
         self._right = windowRect.right
         self._bottom = windowRect.bottom
+        self._screenShot = None
 
     @property
     def left(self):
@@ -103,23 +107,42 @@ class WindowController:
         win32gui.ShowWindow(self.hwnd, win32Constant.SW_RESTORE)
         win32gui.BringWindowToTop(self.hwnd)
         #win32gui.SetForegroundWindow(self.hwnd)
+        #win32gui.ShowWindow(self.hwnd, win32Constant.SW_MINIMIZE)
         win32gui.ShowWindow(self.hwnd, win32Constant.SW_SHOWNORMAL)
 
     def refreshWindowRect(self):
         self._windowInfo = WindowUtil.getWindowInfo(self.hwnd)
 
     def takeScreenshot(self):
-        self.refreshWindowRect()
         self.bringToFront()
+        self.refreshWindowRect()
 
-        screenShot = None
+        self._screenShot = None
         with mss.mss() as sct:
-            screenShot = sct.grab({
+            self._screenShot = sct.grab({
                 'left': self.windowInfo.left, 'top': self.windowInfo.top,
                 'width': self.windowInfo.width, 'height': self.windowInfo.height
             })
 
-        return screenShot
+        return self._screenShot
+
+    def clickButtonImage(self, buttonImage):
+        screenShotData = np.array(self._screenShot)
+        # cv2.imshow('test', screenShotData)
+        # if (cv2.waitKey(1) & 0xFF) == ord('q'):
+        #     cv2.destroyAllWindows()
+        screenShotPath = 'shot.png'
+        mss.tools.to_png(self._screenShot.rgb, self._screenShot.size, output=screenShotPath)
+        try:
+            buttonImageLocation = pyautogui.locate(buttonImage, screenShotPath)
+            buttonImagePosition = pyautogui.center(buttonImageLocation)
+            self.clickButtonPosition(buttonImagePosition)
+            print('click')
+        except Exception as e:
+            print('locate error' + str(e))
+
+    def clickButtonPosition(self, buttonPosition):
+        pyautogui.click(buttonPosition.x + self.windowInfo.left, buttonPosition.y + self.windowInfo.top)
 
 
 
