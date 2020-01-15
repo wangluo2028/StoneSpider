@@ -80,10 +80,13 @@ class HearthstoneApplication:
     def autoConnectBattleNet(self):
         self.autoSearchBattleNetPath()
         #os.startfile(self.battleNetPath)
-        subprocess.Popen(self.battleNetPath,
-                         shell=True,
-                         creationflags=win32Constant.DETACHED_PROCESS|win32Constant.CREATE_NEW_PROCESS_GROUP,
-                         cwd=os.path.dirname(self.battleNetPath))
+        try:
+            self.application.connect(path=self.battleNetPath)
+        except Exception as e:
+            subprocess.Popen(self.battleNetPath,
+                             shell=True,
+                             creationflags=win32Constant.DETACHED_PROCESS|win32Constant.CREATE_NEW_PROCESS_GROUP,
+                             cwd=os.path.dirname(self.battleNetPath))
 
     def autoSearchBattleNetSystemTrayOnHiddenTray(self):
         pass
