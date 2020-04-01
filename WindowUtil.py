@@ -104,18 +104,22 @@ class WindowController:
         return self._windowInfo
 
     def bringToFront(self):
-        win32gui.ShowWindow(self.hwnd, win32Constant.SW_RESTORE)
-        win32gui.BringWindowToTop(self.hwnd)
+        #win32gui.ShowWindow(self.hwnd, win32Constant.SW_RESTORE)
+        #win32gui.BringWindowToTop(self.hwnd)
         #win32gui.SetForegroundWindow(self.hwnd)
         #win32gui.ShowWindow(self.hwnd, win32Constant.SW_MINIMIZE)
-        win32gui.ShowWindow(self.hwnd, win32Constant.SW_SHOWNORMAL)
+        #win32gui.ShowWindow(self.hwnd, win32Constant.SW_SHOWNORMAL)
+        win32gui.SetForegroundWindow(self.hwnd)
+        win32gui.SetWindowPos(self.hwnd, win32Constant.HWND_TOPMOST,
+                              self.windowInfo.left, self.windowInfo.top, self.windowInfo.width, self.windowInfo.height,
+                              win32Constant.SWP_NOMOVE|win32Constant.SWP_NOACTIVATE|win32Constant.SWP_NOOWNERZORDER|win32Constant.SWP_SHOWWINDOW)
 
     def refreshWindowRect(self):
         self._windowInfo = WindowUtil.getWindowInfo(self.hwnd)
 
     def takeScreenshot(self):
-        self.bringToFront()
         self.refreshWindowRect()
+        self.bringToFront()
 
         self._screenShot = None
         with mss.mss() as sct:
