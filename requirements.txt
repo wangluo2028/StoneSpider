@@ -5,7 +5,7 @@ comtypes==1.1.7
 decorator==4.4.1
 facebook-wda==0.2.1
 idna==2.8
-Jinja2==2.10.3
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 MouseInfo==0.1.2
 mss==4.0.3
